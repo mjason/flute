@@ -26,10 +26,17 @@ func (auth_user *AuthUser) Before() bool {
 }
 
 func main() {
+	e := flute.LoadConfig("./app_config.conf")
+	if e != nil {
+		panic(e)
+	}
 	flute.HandleFunc("/", "GET", func(c *flute.Context) {
 		c.RenderText(200, "hello word")
 	})
 	var users Users
 	flute.Resources("users", &users)
-	flute.Start(":1234")
+	e = flute.Start()
+	if e != nil {
+		panic(e)
+	}
 }

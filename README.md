@@ -1,9 +1,12 @@
 flute
 =====
 
+一个基于mux的restful框架, 选择最好的第三方包进行整合,尽量不重复制造轮子
+
 ## 项目依赖的第三方包
 - github.com/gorilla/mux
 - github.com/bitly/go-simplejson
+- github.com/robfig/config
 
 ## 例子说明
 ```go
