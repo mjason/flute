@@ -26,12 +26,35 @@ func (r *Router) AddFunc(path string, method string, f func(c *Context)) {
 	}).Methods(method)
 }
 
-func (r *Router) Resources(path string, controller ControllerInterface) {
-	path1 = "/" + path
-	path2 = path1 + "/{id}"
+func (r *Router) Resources(path string, controller ControllerInterface, middlewares []MiddlewareInterface) {
+
+	path1 := "/" + path
+	path2 := path1 + "/{id}"
+
+	beforeFunc := func(c *Context) bool {
+		for _, v := range middlewares {
+			v.Init(c)
+			if v.Before() == false {
+				return false
+			}
+		}
+		return true
+	}
+
+	afterFunc := func(c *Context) {
+		for _, v := range middlewares {
+			v.Init(c)
+			v.After()
+		}
+	}
+
 	r.AddFunc(path1, "GET", func(c *Context) {
-		controller.Init(c)
-		controller.Index()
+		if beforeFunc(c) {
+			controller.Init(c)
+			controller.Index()
+		}
+		afterFunc(c)
+
 	})
 	r.AddFunc(path2, "GET", func(c *Context) {
 		controller.Init(c)

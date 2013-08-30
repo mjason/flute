@@ -14,6 +14,6 @@ func HandleFunc(path string, method string, f func(c *Context)) {
 	Flute.AddFunc(path, method, f)
 }
 
-func Resources(path string, controller ControllerInterface) {
-	Flute.Resources(path, controller)
+func Resources(path string, controller ControllerInterface, middlewares ...MiddlewareInterface) {
+	Flute.Resources(path, controller, middlewares)
 }
