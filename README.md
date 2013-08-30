@@ -40,6 +40,14 @@ func main() {
 
 十分像rails的一些东西, 内部实现很多闭包,支持restful路由, 基于mux的小封装,更大的自由
 
+## 学习资源
+关于日志那一块请可以看:　https://github.com/astaxie/build-web-application-with-golang/blob/master/ebook/12.1.md  
+立面有很好的说明,　log.go 基本就是直接拿过来用的那种, 3q @astaxie 
+
+## 项目构建说明
+惯例优于配置还是在的,所有配置相关的文件请放在config目录,　example有例子可以看
+
+
 ## 接下来的东西
 - 封装好mgo驱动,提供更加方便的方法
 - 增加插件功能,比如before和after,以便做框架验证

@@ -1,0 +1,16 @@
+<seelog minlevel="warn">
+    <outputs formatid="common">
+        <rollingfile type="size" filename="./logs/roll.log" maxsize="100000" maxrolls="5"/>
+        <filter levels="critical">
+            <file path="./logs/critical.log" formatid="critical"/>
+            <smtp formatid="criticalemail" senderaddress="tywf91@gmail.com" sendername="flute" hostname="smtp.gmail.com" hostport="587" username="username" password="password">
+                <recipient address="xxx@gmail.com"/>
+            </smtp>
+        </filter>
+    </outputs>
+    <formats>
+        <format id="common" format="%Date/%Time [%LEV] %Msg%n" />
+        <format id="critical" format="%File %FullPath %Func %Msg%n" />
+        <format id="criticalemail" format="Critical error on our server!\n    %Time %Date %RelFile %Func %Msg \nSent by Seelog"/>
+    </formats>
+</seelog>

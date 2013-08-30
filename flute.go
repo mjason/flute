@@ -12,6 +12,8 @@ var Config *config.Config
 func init() {
 	Flute = NewRouter()
 	Message = make(map[string]string)
+	disableLog()
+	initAppConfig()
 }
 
 // 启动服务器, 需要传入一个地址
@@ -34,13 +36,13 @@ func Resources(path string, controller ControllerInterface, middlewares ...Middl
 }
 
 // 加载配置文件到Message里面去
-func LoadConfig(path string) error {
+func LoadConfig() error {
 	if env := os.Getenv("FLUTEENV"); env != "" {
 		Message["env"] = env
 	} else {
 		Message["env"] = "development"
 	}
-	c, e := config.ReadDefault(path)
+	c, e := config.ReadDefault("./config/app_config.conf")
 	if e != nil {
 		return e
 	}

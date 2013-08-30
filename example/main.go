@@ -26,7 +26,7 @@ func (auth_user *AuthUser) Before() bool {
 }
 
 func main() {
-	e := flute.LoadConfig("./app_config.conf")
+	e := flute.LoadConfig()
 	if e != nil {
 		panic(e)
 	}
@@ -37,6 +37,6 @@ func main() {
 	flute.Resources("users", &users)
 	e = flute.Start()
 	if e != nil {
-		panic(e)
+		flute.Logger.Criticalf("服务器启动失败: %v", e)
 	}
 }
