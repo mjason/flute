@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// 内部路由
 type Router struct {
 	*mux.Router
 }
@@ -26,6 +27,7 @@ func (r *Router) AddFunc(path string, method string, f func(c *Context)) {
 	}).Methods(method)
 }
 
+// 内部的restful路由实现, 还有中间件的调用, 总是感觉不优雅, 如果你有更好的思路,请告诉我,谢谢
 func (r *Router) Resources(path string, controller ControllerInterface, middlewares []MiddlewareInterface) {
 
 	path1 := "/" + path
@@ -56,20 +58,37 @@ func (r *Router) Resources(path string, controller ControllerInterface, middlewa
 		afterFunc(c)
 
 	})
+
 	r.AddFunc(path2, "GET", func(c *Context) {
-		controller.Init(c)
-		controller.Show()
+		if beforeFunc(c) {
+			controller.Init(c)
+			controller.Show()
+		}
+		afterFunc(c)
 	})
+
 	r.AddFunc(path1, "POST", func(c *Context) {
-		controller.Init(c)
-		controller.Create()
+		if beforeFunc(c) {
+			controller.Init(c)
+			controller.Create()
+		}
+		afterFunc(c)
 	})
+
 	r.AddFunc(path2, "PUT", func(c *Context) {
-		controller.Init(c)
-		controller.Update()
+		if beforeFunc(c) {
+			controller.Init(c)
+			controller.Update()
+		}
+		afterFunc(c)
 	})
+
 	r.AddFunc(path2, "DELETE", func(c *Context) {
-		controller.Init(c)
-		controller.Delete()
+		if beforeFunc(c) {
+			controller.Init(c)
+			controller.Delete()
+		}
+		afterFunc(c)
 	})
+
 }
