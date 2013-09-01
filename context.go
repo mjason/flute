@@ -1,6 +1,7 @@
 package flute
 
 import (
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -20,4 +21,12 @@ func (c *Context) Vars() map[string]string {
 func (c *Context) RenderText(status int, data string) {
 	c.ResponseWriter.WriteHeader(status)
 	c.ResponseWriter.Write([]byte(data))
+}
+
+// 返回json
+func (c *Context) RenderJson(status int, data interface{}) {
+	c.ResponseWriter.Header().Set("Content-Type", "application/json")
+	c.ResponseWriter.WriteHeader(status)
+	json_, _ := json.Marshal(data)
+	c.ResponseWriter.Write(json_)
 }

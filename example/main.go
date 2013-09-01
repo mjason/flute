@@ -34,7 +34,7 @@ func main() {
 		c.RenderText(200, "hello word")
 	})
 	var users Users
-	flute.Resources("users", &users)
+	flute.Resources("users", &users, &AuthUser{})
 	e = flute.Start()
 	if e != nil {
 		flute.Logger.Criticalf("服务器启动失败: %v", e)
